@@ -2,6 +2,7 @@ import {FC, useEffect, useState} from 'react';
 import styles from './bookList.module.scss';
 import useBookSA from '../../../service/applicatif/book.sa.ts';
 import BookItem, {BookItemProps} from "../bookItem/bookItem.tsx";
+import './../../../index.css';
 interface BookListProps {}
 
 const BookList: FC<BookListProps> = () => {
