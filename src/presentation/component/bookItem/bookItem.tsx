@@ -6,7 +6,7 @@ export interface BookItemProps {
     coverImage: string;
 }
 
-const BookItem: FC<BookItemProps> = ({ id, title, coverImage }) => {
+const BookItem: FC<BookItemProps> = ({ id, title, coverImage, onDelete}) => {
     return (
         <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <a href="#">
@@ -26,7 +26,7 @@ const BookItem: FC<BookItemProps> = ({ id, title, coverImage }) => {
                 <Button
                     title={"Retirer"}
                     type={ButtonType.Delete}
-                    onClick={() => deleteBook(id)}>
+                    onClick={() => onDelete(id)}>
                 </Button>
             </div>
         </div>

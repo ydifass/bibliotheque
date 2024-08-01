@@ -10,6 +10,7 @@ const BookList: FC<BookListProps> = () => {
 
     // eslint-disable-next-line react-hooks/rules-of-hooks,@typescript-eslint/no-unused-vars
     const {getAllBooks} = useBookSA();
+    const {deleteBook} = useBookSA();
 
     useEffect(() => {
         getAllBooks().then(
@@ -24,11 +25,9 @@ const BookList: FC<BookListProps> = () => {
         );
     }, []);
 
-    const deleteBook = (id: string) => {
-        // Supprimez le livre de votre source de données
+    const onDeleteBook = (id: string) => {
         console.log(`Delete book with id: ${id}`);
-
-        // Mettez à jour l'état books pour déclencher un nouveau rendu
+        deleteBook(id);
         const updatedBooks = books.filter(book => book.id !== id);
         setBooks(updatedBooks);
     }
@@ -42,7 +41,8 @@ const BookList: FC<BookListProps> = () => {
                     <BookItem
                               title={book.title}
                               id={book.id}
-                              coverImage={"https://via.placeholder.com/150/92c952"}>
+                              coverImage={"https://via.placeholder.com/150/92c952"}
+                              onDelete={onDeleteBook}>
                     </BookItem>
                 </div>
             ))
