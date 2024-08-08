@@ -1,4 +1,4 @@
-import {deleteBook, getAllBooks} from "../bdl/book.bdl.ts";
+import {addBook, deleteBook, getAllBooks} from "../bdl/book.bdl.ts";
 
 const useBookSA = () => {
     return {
@@ -22,7 +22,19 @@ const useBookSA = () => {
                     })
                     .catch((exception) => error(exception));
             })
-        }
+        },
+        addBook: (bookData: unknown)=> {
+            // eslint-disable-next-line no-async-promise-executor
+            new Promise<unknown>(async (success, error) => {
+                await addBook(bookData)
+                    .then((res) => {
+                        // logger.debug('res sa ===>', res);
+                        success(res);
+                    })
+                    .catch((exception) => error(exception));
+            })
+        },
+        
     };
 }
 

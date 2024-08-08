@@ -1,10 +1,10 @@
 import './App.css'
-import BookList from "./presentation/component/bookList/bookList.tsx";
+import Home from "./presentation/component/home/home.tsx";
 
 function App() {
   return (
     <>
-      <BookList></BookList>
+      <Home></Home>
     </>
   )
 }

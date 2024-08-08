@@ -23,4 +23,14 @@ export const deleteBook = (id: string) => {
         ).then(response => resolve(response))
             .catch((exception: unknown) => reject(exception));
     });
-}
+};
+
+export const addBook = (bookData: unknown) => {
+    return new Promise<unknown>((resolve, reject) => {
+        axios.post(
+            `${configs.booksBaseUrl + book.baseUrl + book.addBook}`,
+            bookData
+        ).then(response => resolve(response))
+            .catch((exception: unknown) => reject(exception));
+    });
+};
