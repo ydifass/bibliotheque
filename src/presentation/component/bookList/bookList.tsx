@@ -1,17 +1,21 @@
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './bookList.module.scss';
 import useBookSA from '../../../service/applicatif/book.sa.ts';
-import BookItem, {BookItemProps} from "../bookItem/bookItem.tsx";
 import './../../../index.css';
+import {Book} from "../../../data/DTO/Book.tsx";
+import UpdateBook from "../updateBook/updateBook.tsx";
+import BookItem from "../bookItem/bookItem.tsx";
 interface BookListProps {}
 
 const BookList: FC<BookListProps> = () => {
 
-    const [books, setBooks] = useState<BookItemProps[]>([]);
+    const [books, setBooks] = useState<Book[]>([]);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks,@typescript-eslint/no-unused-vars
     const {getAllBooks} = useBookSA();
     const {deleteBook} = useBookSA();
+    const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         getAllBooks().then(
@@ -33,6 +37,16 @@ const BookList: FC<BookListProps> = () => {
         setBooks(updatedBooks);
     }
 
+    const handleEditClick = (book: Book) => {
+        setSelectedBook(book);
+        setOpenModal(true);
+    };
+
+    const handleUpdateBook = (updatedBook: Book) => {
+        setBooks(books.map(book => (book.id === updatedBook.id ? updatedBook : book)));
+        setOpenModal(false);  // Close modal after updating
+    }
+
     return (
     <div className={`${styles.BookList} flex flex-wrap`}>
         {
@@ -42,12 +56,21 @@ const BookList: FC<BookListProps> = () => {
                     <BookItem
                               title={book.title}
                               id={book.id}
-                              coverImage={"https://via.placeholder.com/150/92c952"}
-                              onDelete={onDeleteBook}>
+                              onDelete={onDeleteBook}
+                              onUpdate={() => handleEditClick(book)}>
                     </BookItem>
                 </div>
+
             ))
         }
+        {selectedBook && (
+            <UpdateBook
+                bookData={selectedBook}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                onUpdateBook={handleUpdateBook}
+            />
+        )}
     </div>
 );
 }

@@ -9,17 +9,17 @@ interface AddBookProps {}
 
 const AddBook: FC<AddBookProps> = () => {
     const [openModal, setOpenModal] = useState(false);
-    const [bookData, setBookData] = useState<Book>({id: "", title: '', author: '', genre: '' });
+    const [bookData, setBookData] = useState<Book>({id: "", title: '', author: '', type: '' });
     const emailInputRef = useRef<HTMLInputElement>(null);
     const {addBook} = useBookSA();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         const newBookId = uuidv4();
-        const newBook = { id: newBookId, title: bookData.title, author: bookData.author, genre: bookData.genre };
+        const newBook = { id: newBookId, title: bookData.title, author: bookData.author, type: bookData.type };
         try {
             addBook(newBook);
-            setBookData({id: '', title: '', author: '', genre: '' });
+            setBookData({id: '', title: '', author: '', type: '' });
             setOpenModal(false);
         } catch (error) {
             console.error('Erreur lors de l\'ajout du livre', error);
@@ -34,8 +34,8 @@ const AddBook: FC<AddBookProps> = () => {
         setBookData(prevData => ({ ...prevData, author: e.target.value }));
     };
 
-    const handleGenreChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBookData(prevData => ({ ...prevData, genre: e.target.value }));
+    const handletypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setBookData(prevData => ({ ...prevData, type: e.target.value }));
     };
 
     return (
@@ -74,13 +74,13 @@ const AddBook: FC<AddBookProps> = () => {
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="genre" value="Genre du livre" />
+                                <Label htmlFor="type" value="type du livre" />
                             </div>
                             <TextInput
-                                id="genre"
-                                value={bookData.genre}
-                                onChange={handleGenreChange}
-                                placeholder="Genre du livre"
+                                id="type"
+                                value={bookData.type}
+                                onChange={handletypeChange}
+                                placeholder="type du livre"
                                 required
                             />
                         </div>
