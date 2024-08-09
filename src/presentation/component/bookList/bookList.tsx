@@ -18,23 +18,28 @@ const BookList: FC<BookListProps> = () => {
     const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
-        getAllBooks().then(
-            (response) => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                setBooks(response);
-            },
-            (exception) => {
-                console.log(exception);
-            }
-        );
-    }, []);
+        loadBooks();
+    }, [openModal]);
 
-    const onDeleteBook = (id: string) => {
+    const loadBooks = async () => {
+        try {
+            const response = await getAllBooks();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            setBooks(response);
+        } catch (exception) {
+            console.log(exception);
+        }
+    }
+
+    const onDeleteBook = async (id: string) => {
         console.log(`Delete book with id: ${id}`);
-        deleteBook(id);
-        const updatedBooks = books.filter(book => book.id !== id);
-        setBooks(updatedBooks);
+        try {
+            await deleteBook(id);
+            await loadBooks();
+        } catch (exception) {
+            console.log("Erreur lors de la suppression du livre:", exception);
+        }
     }
 
     const handleEditClick = (book: Book) => {
@@ -42,9 +47,10 @@ const BookList: FC<BookListProps> = () => {
         setOpenModal(true);
     };
 
-    const handleUpdateBook = (updatedBook: Book) => {
+    const handleUpdateBook = async (updatedBook: Book) => {
         setBooks(books.map(book => (book.id === updatedBook.id ? updatedBook : book)));
         setOpenModal(false);  // Close modal after updating
+        await loadBooks();
     }
 
     return (

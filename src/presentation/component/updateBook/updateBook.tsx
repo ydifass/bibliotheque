@@ -18,9 +18,9 @@ const UpdateBook: FC<UpdateBookProps> = ({ bookData, openModal, setOpenModal}) =
         setUpdatedBookData(bookData);
     }, [openModal]);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        updateBook(updatedBookData);
+        await updateBook(updatedBookData);
         setOpenModal(false);
     };
 

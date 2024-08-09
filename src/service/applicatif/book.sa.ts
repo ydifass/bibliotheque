@@ -3,47 +3,37 @@ import {Book} from "../../data/DTO/Book.tsx";
 
 const useBookSA = () => {
     return {
-        getAllBooks: () =>
-            // eslint-disable-next-line no-async-promise-executor
-            new Promise<unknown>(async (success, error) => {
-                await getAllBooks()
-                    .then((res) => {
-                        // logger.debug('res sa ===>', res);
-                        success(res);
-                    })
-                    .catch((exception) => error(exception));
-            }),
-        deleteBook: (id: string) => {
-            // eslint-disable-next-line no-async-promise-executor
-            new Promise<unknown>(async (success, error) => {
-                await deleteBook(id)
-                    .then((res) => {
-                        // logger.debug('res sa ===>', res);
-                        success(res);
-                    })
-                    .catch((exception) => error(exception));
-            })
+        getAllBooks: async () =>{
+            // eslint-disable-next-line
+            try{
+                return await getAllBooks();
+            } catch (exception) {
+                throw exception;
+            }
         },
-        addBook: (bookData: unknown)=> {
-            // eslint-disable-next-line no-async-promise-executor
-            new Promise<unknown>(async (success, error) => {
-                await addBook(bookData)
-                    .then((res) => {
-                        // logger.debug('res sa ===>', res);
-                        success(res);
-                    })
-                    .catch((exception) => error(exception));
-            })
+        deleteBook: async (id: string) => {
+            try {
+                const res = await deleteBook(id);
+                return Promise.resolve(res);
+            } catch (exception) {
+                return Promise.reject(exception);
+            }
         },
-        updateBook: (bookData: Book) => {
-            // eslint-disable-next-line no-async-promise-executor
-            new Promise<unknown>(async (success, error) => {
-                await updateBook(bookData)
-                   .then((res) => {
-                        success(res);
-                    })
-                   .catch((exception) => error(exception));
-            })
+        addBook: async (bookData: unknown)=> {
+            // eslint-disable-next-line no-useless-catch
+           try {
+               return await addBook(bookData);
+           } catch (exception) {
+               throw exception;
+           }
+        },
+        updateBook: async (bookData: Book) => {
+            // eslint-disable-next-line no-useless-catch
+            try{
+                return await updateBook(bookData);
+            } catch (exception) {
+                throw exception;
+            }
         }
     };
 }

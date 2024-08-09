@@ -13,13 +13,13 @@ const AddBook: FC<AddBookProps> = () => {
     const emailInputRef = useRef<HTMLInputElement>(null);
     const {addBook} = useBookSA();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const newBookId = uuidv4();
-        const newBook = { id: newBookId, title: bookData.title, author: bookData.author, type: bookData.type };
+        const newBook = {id: newBookId, title: bookData.title, author: bookData.author, type: bookData.type};
         try {
-            addBook(newBook);
-            setBookData({id: '', title: '', author: '', type: '' });
+            await addBook(newBook);
+            setBookData({id: '', title: '', author: '', type: ''});
             setOpenModal(false);
         } catch (error) {
             console.error('Erreur lors de l\'ajout du livre', error);
