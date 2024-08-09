@@ -5,9 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import useBookSA from '../../../service/applicatif/book.sa.ts';
 import {Book} from "../../../data/DTO/Book.tsx";
 
-interface AddBookProps {}
+interface AddBookProps {
+    loadBooks: () => void;
+}
 
-const AddBook: FC<AddBookProps> = () => {
+const AddBook: FC<AddBookProps> = ({loadBooks}) => {
     const [openModal, setOpenModal] = useState(false);
     const [bookData, setBookData] = useState<Book>({id: "", title: '', author: '', type: '' });
     const emailInputRef = useRef<HTMLInputElement>(null);
@@ -21,6 +23,7 @@ const AddBook: FC<AddBookProps> = () => {
             await addBook(newBook);
             setBookData({id: '', title: '', author: '', type: ''});
             setOpenModal(false);
+            loadBooks();
         } catch (error) {
             console.error('Erreur lors de l\'ajout du livre', error);
         }
