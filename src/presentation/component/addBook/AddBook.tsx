@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useState } from 'react';
 import styles from './addBook.module.scss';
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,7 +12,6 @@ interface AddBookProps {
 const AddBook: FC<AddBookProps> = ({loadBooks}) => {
     const [openModal, setOpenModal] = useState(false);
     const [bookData, setBookData] = useState<Book>({id: "", title: '', author: '', type: '' });
-    const emailInputRef = useRef<HTMLInputElement>(null);
     const {addBook} = useBookSA();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -46,7 +45,7 @@ const AddBook: FC<AddBookProps> = ({loadBooks}) => {
             <Button color="green" onClick={() => setOpenModal(true)}>
                 Ajouter un nouveau livre
             </Button>
-            <Modal className="modal-background" show={openModal} size="md" popup onClose={() => setOpenModal(false)} initialFocus={emailInputRef}>
+            <Modal className="modal-background" show={openModal} size="md" popup onClose={() => setOpenModal(false)}>
                 <Modal.Header />
                 <Modal.Body>
                     <form onSubmit={handleSubmit} className="space-y-6">
