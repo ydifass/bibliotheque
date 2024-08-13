@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import styles from './addBook.module.scss';
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
-import { v4 as uuidv4 } from 'uuid';
 import useBookSA from '../../../service/applicatif/book.sa.ts';
 import {Book} from "../../../data/DTO/Book.tsx";
 
@@ -11,16 +10,15 @@ interface AddBookProps {
 
 const AddBook: FC<AddBookProps> = ({loadBooks}) => {
     const [openModal, setOpenModal] = useState(false);
-    const [bookData, setBookData] = useState<Book>({id: "", title: '', author: '', type: '' });
+    const [bookData, setBookData] = useState<Book>({id: 0, title: '', author: '', type: '' });
     const {addBook} = useBookSA();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newBookId = uuidv4();
-        const newBook = {id: newBookId, title: bookData.title, author: bookData.author, type: bookData.type};
+        const newBook = {title: bookData.title, author: bookData.author, type: bookData.type};
         try {
             await addBook(newBook);
-            setBookData({id: '', title: '', author: '', type: ''});
+            setBookData({id: 0, title: '', author: '', type: ''});
             setOpenModal(false);
             loadBooks();
         } catch (error) {
