@@ -1,5 +1,5 @@
 import {addBook, deleteBook, getAllBooks, updateBook} from "../bdl/book.bdl.ts";
-import {Book} from "../../data/DTO/Book.tsx";
+import {Book} from "@DTO/Book.tsx";
 
 const useBookSA = () => {
     return {
@@ -11,7 +11,7 @@ const useBookSA = () => {
                 throw exception;
             }
         },
-        deleteBook: async (id: string) => {
+        deleteBook: async (id: number) => {
             try {
                 const res = await deleteBook(id);
                 return Promise.resolve(res);

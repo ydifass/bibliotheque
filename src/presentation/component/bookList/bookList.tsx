@@ -1,8 +1,8 @@
-import React, {FC, useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import styles from './bookList.module.scss';
-import useBookSA from '../../../service/applicatif/book.sa.ts';
+import useBookSA from '@sa/book.sa.tsx'
 import './../../../index.css';
-import {Book} from "../../../data/DTO/Book.tsx";
+import {Book} from "@DTO/Book.tsx";
 import UpdateBook from "../updateBook/updateBook.tsx";
 import BookItem from "../bookItem/bookItem.tsx";
 import AddBook from "../addBook/AddBook.tsx";
@@ -35,7 +35,7 @@ const BookList: FC<BookListProps> = () => {
         }
     }
 
-    const onDeleteBook = async (id: string) => {
+    const onDeleteBook = async (id: number) => {
         console.log(`Delete book with id: ${id}`);
         try {
             await deleteBook(id);

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import styles from './home.module.scss';
 import BookList from "../bookList/bookList.tsx";
 import Navbar from "../navbar/navbar.tsx";

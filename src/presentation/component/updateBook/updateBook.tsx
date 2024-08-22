@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import { Button, Label, Modal, TextInput } from "flowbite-react";
-import { Book } from "../../../data/DTO/Book.tsx";
-import useBookSA from '../../../service/applicatif/book.sa.ts';
+import { Book } from "@DTO/Book.tsx";
+import useBookSA from '@sa/book.sa.tsx';
 
 interface UpdateBookProps {
     bookData: Book;

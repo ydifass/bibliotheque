@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import styles from './addBook.module.scss';
 import { Button, Label, Modal, TextInput } from 'flowbite-react';
-import useBookSA from '../../../service/applicatif/book.sa.ts';
-import {Book} from "../../../data/DTO/Book.tsx";
+import useBookSA from '@sa/book.sa.tsx'
+import {Book} from "@DTO/Book.tsx";
 
 interface AddBookProps {
     loadBooks: () => void;

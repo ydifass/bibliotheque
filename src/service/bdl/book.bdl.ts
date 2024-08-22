@@ -2,7 +2,7 @@ import useAxios from "../../common/hooks/axios-ex.ts";
 import configs from "../../data/constants/Configs.ts";
 import {book} from "../../data/constants/Urls.ts";
 import axios from "axios";
-import {Book} from "../../data/DTO/Book.tsx";
+import {Book} from "@DTO/Book.tsx";
 
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -19,7 +19,7 @@ export const getAllBooks = async () => {
     }
 };
 
-export const deleteBook = async (id: string) => {
+export const deleteBook = async (id: number) => {
     // eslint-disable-next-line no-useless-catch
     try {
         return await axios.delete(

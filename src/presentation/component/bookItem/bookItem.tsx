@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { Card } from "flowbite-react";
 import Button, {ButtonType} from "../button/button.tsx";
 export interface BookItemProps {
-    id: string;
+    id: number;
     title: string;
-    onDelete: (id: string) => void;
+    onDelete: (id: number) => void;
     onUpdate: () => void;
 }
 

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import styles from './navbar.module.scss';
 import {Button, Navbar, TextInput} from "flowbite-react";
 import { HiSearch } from 'react-icons/hi';
