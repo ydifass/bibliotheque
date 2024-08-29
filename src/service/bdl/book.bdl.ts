@@ -1,24 +1,20 @@
-import useAxios from "../../common/hooks/axios-ex.ts";
 import configs from "../../data/constants/Configs.ts";
 import {book} from "../../data/constants/Urls.ts";
 import axios from "axios";
 import {Book} from "@DTO/Book.tsx";
+import {HelpPageDTO} from "@DTO/HelpPage.dto.ts";
 
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
-const {getAxios} = useAxios();
+//const {getAxios} = useAxios();
 
-export const getAllBooks = async () => {
-    // eslint-disable-next-line no-useless-catch
-    try {
-        return await getAxios(
-            `${configs.booksBaseUrl + book.baseUrl + book.allBooks}`
-        );
-    }catch (exception) {
-        throw exception;
-    }
+export const getAllBooks = (page?: number, size?: number) => {
+    return new Promise<HelpPageDTO<Book>>((success, reject) => {
+        axios.get(`${configs.booksBaseUrl}${book.baseUrl}${book.allBooks}?page=${page}&size=${size}`)
+            .then((response) => success(response.data))
+            .catch((exception) => reject(exception));
+    });
 };
-
 export const deleteBook = async (id: number) => {
     // eslint-disable-next-line no-useless-catch
     try {

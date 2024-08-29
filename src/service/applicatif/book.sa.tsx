@@ -1,15 +1,15 @@
 import {addBook, deleteBook, getAllBooks, updateBook} from "../bdl/book.bdl.ts";
 import {Book} from "@DTO/Book.tsx";
+import {HelpPageDTO} from "@DTO/HelpPage.dto.ts";
 
 const useBookSA = () => {
     return {
-        getAllBooks: async () =>{
-            // eslint-disable-next-line
-            try{
-                return await getAllBooks();
-            } catch (exception) {
-                throw exception;
-            }
+        getAllBooks: (page: number, size: number) =>{
+            return new Promise<HelpPageDTO<Book>>((success, reject) => {
+                getAllBooks(page, size)
+                    .then((response) => success(response))
+                    .catch((exception) => reject(exception));
+            });
         },
         deleteBook: async (id: number) => {
             try {

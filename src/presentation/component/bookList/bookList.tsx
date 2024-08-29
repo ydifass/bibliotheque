@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import styles from './bookList.module.scss';
 import useBookSA from '@sa/book.sa.tsx'
 import './../../../index.css';
@@ -7,6 +7,8 @@ import UpdateBook from "../updateBook/updateBook.tsx";
 import BookItem from "../bookItem/bookItem.tsx";
 import AddBook from "../addBook/AddBook.tsx";
 import Button, {ButtonType} from "../button/button.tsx";
+import {SIZE_PER_PAGE} from "../../../data/constants";
+import {Dropdown, Pagination} from "flowbite-react";
 
 interface BookListProps {}
 
@@ -19,17 +21,22 @@ const BookList: FC<BookListProps> = () => {
     const { deleteBook } = useBookSA();
     const [selectedBook, setSelectedBook] = useState<Book | null>(null);
     const [openModal, setOpenModal] = useState(false);
+    const [currentPage, setCurrentPage] = React.useState<number>(0);
+    const [totalPages, setTotalPages] = React.useState<number>(0);
+    // const [totalElements, setTotalElements] = React.useState<number>(0);
 
     useEffect(() => {
         loadBooks();
-    }, [openModal]);
+    }, [openModal, currentPage]);
 
     const loadBooks = async () => {
         try {
-            const response = await getAllBooks();
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            setBooks(response);
+            const response = await getAllBooks(currentPage, SIZE_PER_PAGE);
+            setBooks(response.content);
+            // setTotalElements(response.totalElements)
+            setCurrentPage(response.pageable.pageNumber);
+            setTotalPages(response.totalPages);
+            console.log(currentPage)
         } catch (exception) {
             console.log(exception);
         }
@@ -85,6 +92,11 @@ const BookList: FC<BookListProps> = () => {
                     />
                 )}
             </div>
+            <Pagination
+                className="p-5"
+                currentPage={currentPage}
+                onPageChange={page => setCurrentPage(page - 1)}
+                totalPages={totalPages}/>
         </div>
     );
 }
