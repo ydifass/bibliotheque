@@ -3,14 +3,18 @@ import {book} from "../../data/constants/Urls.ts";
 import axios from "axios";
 import {Book} from "@DTO/Book.tsx";
 import {HelpPageDTO} from "@DTO/HelpPage.dto.ts";
+import SortDTO from "@DTO/common/Sort.dto.ts";
 
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
 //const {getAxios} = useAxios();
 
-export const getAllBooks = (page?: number, size?: number) => {
+export const getAllBooks = (page?: number, size?: number, orderBy?: SortDTO) => {
     return new Promise<HelpPageDTO<Book>>((success, reject) => {
-        axios.get(`${configs.booksBaseUrl}${book.baseUrl}${book.allBooks}?page=${page}&size=${size}`)
+        const url = `${configs.booksBaseUrl}${book.baseUrl}${book.allBooks}?page=${page}&size=${size}${
+            orderBy?.property ? '&sortBy=' + orderBy?.property : ''
+        }${orderBy?.direction ? '&sortDirection=' + orderBy?.direction : ''}`;
+        axios.get(url)
             .then((response) => success(response.data))
             .catch((exception) => reject(exception));
     });

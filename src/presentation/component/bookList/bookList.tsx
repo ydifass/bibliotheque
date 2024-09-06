@@ -8,7 +8,7 @@ import BookItem from "../bookItem/bookItem.tsx";
 import AddBook from "../addBook/AddBook.tsx";
 import Button, {ButtonType} from "../button/button.tsx";
 import {SIZE_PER_PAGE} from "../../../data/constants";
-import {Dropdown, Pagination} from "flowbite-react";
+import {Pagination} from "flowbite-react";
 
 interface BookListProps {}
 
@@ -23,6 +23,7 @@ const BookList: FC<BookListProps> = () => {
     const [openModal, setOpenModal] = useState(false);
     const [currentPage, setCurrentPage] = React.useState<number>(0);
     const [totalPages, setTotalPages] = React.useState<number>(0);
+    const [sortOption, setSortOption] = useState<{property: string, direction: 'ASC' | 'DESC'}>({property: 'title', direction: 'ASC'});
     // const [totalElements, setTotalElements] = React.useState<number>(0);
 
     useEffect(() => {
@@ -31,7 +32,7 @@ const BookList: FC<BookListProps> = () => {
 
     const loadBooks = async () => {
         try {
-            const response = await getAllBooks(currentPage, SIZE_PER_PAGE);
+            const response = await getAllBooks(currentPage, SIZE_PER_PAGE, sortOption);
             setBooks(response.content);
             // setTotalElements(response.totalElements)
             setCurrentPage(response.pageable.pageNumber);
@@ -63,11 +64,20 @@ const BookList: FC<BookListProps> = () => {
         await loadBooks();
     }
 
+    const handleSortChange = async (property: string) => {
+        setSortOption(prevOption => ({
+            property: property,
+            direction: prevOption.direction === 'ASC' ? 'DESC' : 'ASC'
+        }));
+        const books = await getAllBooks(currentPage, SIZE_PER_PAGE, sortOption);
+        setBooks(books.content);
+    };
+
     return (
         <div className={`${styles.BookList} flex flex-col items-center`}>
             <div className="flex justify-between items-center mb-8 gap-4 mt-10">
-                <Button onClick={()=> console.log('filter')} title={'Filtrer'} type={ButtonType.Default}></Button>
-                <Button onClick={()=> console.log('sort')} title={'Trier'} type={ButtonType.Default}></Button>
+                <Button onClick={() => handleSortChange('title')} title={'Titre'} type={ButtonType.Default}></Button>
+                <Button onClick={()=> handleSortChange('author')} type={ButtonType.Default} title={'Autheur'}></Button>
                 <AddBook loadBooks={loadBooks} />
             </div>
             <div className="flex flex-wrap justify-center">
